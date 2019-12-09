@@ -32,7 +32,7 @@ def find_similarity(column, user, number,scores, city):
         value.append(score)
     similarity = pd.Series(value, index=new_df.index)
     city_similar = similarity.sort_values(ascending=False).astype(float).idxmax()
-    message = f'Based on your aggregate preferences and ratings, {city_similar} is the best recommendation'
+    message = f'Based on your aggregate preferences and ratings, {city_similar} is the top recommended city to move/travel to'
     return message,city_similar
 
 # Get more info about the recommended city
