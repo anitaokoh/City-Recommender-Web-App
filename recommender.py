@@ -32,8 +32,8 @@ def find_similarity(column, user, number,scores, city):
         value.append(score)
     similarity = pd.Series(value, index=new_df.index)
     city_similar = similarity.sort_values(ascending=False).astype(float).idxmax()
-    message = f'Based on your aggregate preferences and ratings, {city_similar} is the top recommended city to move/travel to'
-    return message,city_similar
+    # message = f'Based on your aggregate preferences and ratings, {city_similar} is the top recommended city to move/travel to.'
+    return city_similar
 
 # Get more info about the recommended city
 def final_answer(df,word, data):
@@ -89,15 +89,16 @@ def main():
                 user = np.array([level1, level2,level3,level4,level5])
                 column = preference
                 number = len(preference)
-                message, city_similar = find_similarity(column, user, number,scores,city)
+                city_similar = find_similarity(column, user, number,scores,city)
                 with st.spinner("Analysing..."):
                     time.sleep(5)
                 st.text(f'\n\n\n')
                 st.markdown('--------------------------------------------**Recommendation**--------------------------------------------')
-                st.subheader(message)
+                st.text(f'\n\n\n\n\n\n')
+                st.markdown(f'Based on your aggregate preferences and ratings, **{city_similar}** is the top recommended city to move/travel to.')
                 title, country , subtitle, response, breakdown = final_answer(df, city_similar, data)
                 st.text(f'\n\n\n\n\n\n')
-                st.markdown(f'--------------------------------------------**{title}**--------------------------------------------')
+                st.markdown(f'----------------------------------------------**{title}**---------------------------------------------')
                 st.write(f'{city_similar} is the capital of {country}. {response}')
                 st.text(subtitle)
                 st.table(breakdown.style.format({'Score':'{:17,.1f}'}).background_gradient(cmap='Blues').set_properties(subset=['Score'], **{'width': '250px'}))
