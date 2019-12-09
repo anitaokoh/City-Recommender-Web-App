@@ -99,7 +99,7 @@ def main():
                 title, country , subtitle, response, breakdown = final_answer(df, city_similar, data)
                 st.text(f'\n\n\n\n\n\n')
                 st.markdown(f'----------------------------------------------**{title}**---------------------------------------------')
-                st.write(f'{city_similar} is the capital of {country}. {response}')
+                st.write(f'{city_similar} is a city in {country}. {response}')
                 st.text(subtitle)
                 st.table(breakdown.style.format({'Score':'{:17,.1f}'}).background_gradient(cmap='Blues').set_properties(subset=['Score'], **{'width': '250px'}))
                 st.markdown(f'For more info on city rank scores, check [here](https://www.nestpick.com/millennial-city-ranking-2018/)')
