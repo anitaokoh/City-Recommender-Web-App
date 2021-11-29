@@ -8,6 +8,16 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # import the data and create revelent dataframes
 def load():
+
+    df = pd.read_html('https://www.nestpick.com/work-from-anywhere-index/', skiprows=0)[0]
+    df.columns = ['#','city', 'country','Employment Score', 'Startup Score', 'Tourism Score','Housing Score', 'Food Ranking', 'Transport Score', 'Health Rank', 'Internet Speed Score', 'University Score', 'Access to Contraceptive Score', 'Gender Equality Score', 'Immigration Tolerence', 'Personal Freedom and Choice', 'LGBT friendly Score', 'Nightlife Score', 'Beer Ranking', 'Festival Ranking', 'Total']
+    # df.set_index('city',inplace=True)
+    df.drop('#',axis=1, inplace=True)
+    # df.index.name= None
+    df.head()
+
+    df.to_csv('city_ranking.csv', index=False)
+
     df = pd.read_csv('city_ranking.csv')
     data = df.set_index('city'). iloc[:,1:-1]
     scores = df.set_index('city'). iloc[:,1:-1].round().astype(int)
@@ -18,20 +28,20 @@ def load():
     return df, data,scores, location
 
 #Calculate the cosine-similarity
-def find_similarity(column, user, number,scores, city):
+def find_similarity(column, user, number,scores, city): # city == staden man kommer ifrån, number = antalet prefenser, user = värden från sliders
     if city == 'Others':
         new_df = scores[column]
     else:
-        locate = city.split(',')
-        new_df = scores[scores.index !=  locate[0]][column]
+        locate = city.split(',') #get only the city
+        new_df = scores[scores.index !=  locate[0]][column] #don´t get the city youre from
     value = []
     for index,city in enumerate(new_df.index):
-        city_old = new_df.loc[city].values.reshape(-1,number)
+        city_old = new_df.loc[city].values.reshape(-1,number) #loc = access a group of rows and columns by label
         user = user.reshape(-1, number)
         score = cosine_similarity(city_old, user)
-        value.append(score)
+        value.append(score) # sparar värdet i value
     similarity = pd.Series(value, index=new_df.index)
-    city_similar = similarity.sort_values(ascending=False).astype(float).idxmax()
+    city_similar = similarity.sort_values(ascending=False).astype(float).idxmax() #Instead of idxmax use 5 top values for multiple cities?
     # message = f'Based on your aggregate preferences and ratings, {city_similar} is the top recommended city to move/travel to.'
     return city_similar
 
@@ -87,7 +97,7 @@ def main():
             level5 = st.slider(preference[4], 1,10)
             if st.button("Recommend", key="hi"):
                 user = np.array([level1, level2,level3,level4,level5])
-                column = preference
+                column = preference # hämtar kolumn siffror för varje preferens som användaren fyllt i
                 number = len(preference)
                 city_similar = find_similarity(column, user, number,scores,city)
                 with st.spinner("Analysing..."):
