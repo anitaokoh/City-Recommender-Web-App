@@ -40,6 +40,7 @@ def find_similarity(column, user, number,scores, city): # city == staden man kom
         user = user.reshape(-1, number)
         score = cosine_similarity(city_old, user)
         value.append(score) # sparar värdet i value
+        # ÄNDRA HÄR FÖR ATT FÅ FLERA STÄDER
     similarity = pd.Series(value, index=new_df.index)
     city_similar = similarity.sort_values(ascending=False).astype(float).idxmax() #Instead of idxmax use 5 top values for multiple cities?
     # message = f'Based on your aggregate preferences and ratings, {city_similar} is the top recommended city to move/travel to.'
