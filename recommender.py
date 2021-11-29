@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 def load():
 
     df = pd.read_html('https://www.nestpick.com/work-from-anywhere-index/', skiprows=0)[0]
-    df.columns = ['#','city', 'country','Employment Score', 'Startup Score', 'Tourism Score','Housing Score', 'Food Ranking', 'Transport Score', 'Health Rank', 'Internet Speed Score', 'University Score', 'Access to Contraceptive Score', 'Gender Equality Score', 'Immigration Tolerence', 'Personal Freedom and Choice', 'LGBT friendly Score', 'Nightlife Score', 'Beer Ranking', 'Festival Ranking', 'Total']
+    df.columns = ['#','city', 'country','Home Office Room Rent (EUR)', 'Accommodation Availability (Score)', 'Income Tax, incl. Social Contributions (%)','Internet Speed & Capacity (Score)', 'Remote Worker Immigration', 'Remote Working Infrastructure (Score)', 'Safety, Freedom & Rights (Score)', 'Gender Equality (Score)', 'LGBT+ Equality (Score)', 'Minority Equality (Score)', 'Covid-19 Vaccination Rate (%)', 'Cost of Living (Score)', 'Healthcare (Score)', 'Culture & Leisure (Score)', 'Weather (Score)', 'Pollution - Air, Light, Noise (Score)', 'Total']
     # df.set_index('city',inplace=True)
     df.drop('#',axis=1, inplace=True)
     # df.index.name= None
