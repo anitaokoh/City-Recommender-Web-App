@@ -8,10 +8,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # import the data and create revelent dataframes
 def load():
+    url = 'https://www.nestpick.com/work-from-anywhere-index/'
+    dfs = pd.read_html(url)
+    
+    df = dfs[0]
 
-    df = pd.read_html('https://www.nestpick.com/work-from-anywhere-index/', skiprows=0)[0]
+    print(df.head(5))
+
     df.columns = ['#','city', 'country','Home Office Room Rent (EUR)', 'Accommodation Availability (Score)', 'Income Tax, incl. Social Contributions (%)','Internet Speed & Capacity (Score)', 'Remote Worker Immigration', 'Remote Working Infrastructure (Score)', 'Safety, Freedom & Rights (Score)', 'Gender Equality (Score)', 'LGBT+ Equality (Score)', 'Minority Equality (Score)', 'Covid-19 Vaccination Rate (%)', 'Cost of Living (Score)', 'Healthcare (Score)', 'Culture & Leisure (Score)', 'Weather (Score)', 'Pollution - Air, Light, Noise (Score)', 'Total']
     # df.set_index('city',inplace=True)
+
+    df2 = df[['country']]
+    print(df2)
+    
     df.drop('#',axis=1, inplace=True)
     # df.index.name= None
     df.head()
