@@ -8,30 +8,30 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # import the data and create revelent dataframes
 def load():
-    url = 'https://www.nestpick.com/work-from-anywhere-index/'
-    dfs = pd.read_html(url)
+    # url = 'https://www.nestpick.com/work-from-anywhere-index/'
+    # dfs = pd.read_html(url)
     
-    df = dfs[0]
+    # df = dfs[0]
 
-    print(df.head(5))
+    # print(df.head(5))
 
-    df.columns = ['#','city', 'country','Home Office Room Rent (EUR)', 'Accommodation Availability (Score)', 'Income Tax, incl. Social Contributions (%)','Internet Speed & Capacity (Score)', 'Remote Worker Immigration', 'Remote Working Infrastructure (Score)', 'Safety, Freedom & Rights (Score)', 'Gender Equality (Score)', 'LGBT+ Equality (Score)', 'Minority Equality (Score)', 'Covid-19 Vaccination Rate (%)', 'Cost of Living (Score)', 'Healthcare (Score)', 'Culture & Leisure (Score)', 'Weather (Score)', 'Pollution - Air, Light, Noise (Score)', 'Total']
-    # df.set_index('city',inplace=True)
+    # df.columns = ['#','city', 'country','Home Office Room Rent (EUR)', 'Accommodation Availability (Score)', 'Income Tax, incl. Social Contributions (%)','Internet Speed & Capacity (Score)', 'Remote Worker Immigration', 'Remote Working Infrastructure (Score)', 'Safety, Freedom & Rights (Score)', 'Gender Equality (Score)', 'LGBT+ Equality (Score)', 'Minority Equality (Score)', 'Covid-19 Vaccination Rate (%)', 'Cost of Living (Score)', 'Healthcare (Score)', 'Culture & Leisure (Score)', 'Weather (Score)', 'Pollution - Air, Light, Noise (Score)', 'Total']
+    # # df.set_index('city',inplace=True)
 
-    df2 = df[['country']]
-    print(df2)
+    # df2 = df[['country']]
+    # print(df2)
     
-    df.drop('#',axis=1, inplace=True)
-    # df.index.name= None
-    df.head()
+    # df.drop('#',axis=1, inplace=True)
+    # # df.index.name= None
+    # df.head()
 
-    df.to_csv('city_ranking.csv', index=False)
+    # df.to_csv('city_ranking.csv', index=False)
 
     df = pd.read_csv('city_ranking.csv')
-    data = df.set_index('city'). iloc[:,1:-1]
-    scores = df.set_index('city'). iloc[:,1:-1].round().astype(int)
+    data = df.set_index('City').iloc[:,1:-1]
+    scores = df.set_index('City').iloc[:,1:-1].round().astype(int)
     location = []
-    for index, city, country in df[["city", "country"]].sort_values("country").itertuples():
+    for index, city, country in df[["City", "country"]].sort_values("country").itertuples():
         new = f'{city}, {country}'
         location.append(new)
     return df, data,scores, location
