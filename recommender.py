@@ -32,9 +32,9 @@ def load():
 
     print(df.columns[0])
     data = df.set_index('City').iloc[1,1:-1]
-    scores = df.set_index('City').iloc[:,1:-1].round().astype(int)
+    scores = df.set_index('City').iloc[:,1:-1].round()
     location = []
-    for index, city, country in df[["City", "country"]].sort_values("country").itertuples():
+    for index, city, country in df[["City", "Country"]].sort_values("Country").itertuples():
         new = f'{city}, {country}'
         location.append(new)
     return df, data,scores, location
@@ -62,21 +62,21 @@ def find_similarity(column, user, number,scores, city): # city == staden man kom
 def final_answer(df,word, data):
     title = f'About {word}'
     subtitle = 'City Ranking in terms of Business, essentials, Openness and recreation scores(over 10.0)'
-    country = df.loc[df['city'] == word, 'country'].iloc[0]
-    if word in df['city'].head().values:
+    country = df.loc[df['City'] == word, 'Country'].iloc[0]
+    if word in df['City'].head().values:
         response = "It is actually one of the top 5 cities that has piqued millennials' interests."
-    elif word in df['city'].head(10).values:
+    elif word in df['City'].head(10).values:
         response = "It is actually one of the top 10 cities that has piqued millennials' interests."
-    elif word in df['city'].tail(5).values:
+    elif word in df['City'].tail(5).values:
         response = "It is actually one of the least 5 cities that has piqued millennials' interests."
     else:
         response = ""
 
-    ranking = list(zip(list(data.loc[word].index),data.loc[word]))
-    breakdown = pd.DataFrame(ranking, columns = ['Category','Score'])
-    breakdown['Score'] = breakdown['Score'].round(1)
+    #ranking = list(zip(list(data.loc[word].index),data.loc[word]))
+    #breakdown = pd.DataFrame(ranking, columns = ['Category','Score'])
+    #breakdown['Score'] = breakdown['Score'].round(1)
 
-    return title, country , subtitle, response, breakdown
+    return title, country , subtitle, response #, breakdown
 
 #The app controller
 def main():
@@ -119,12 +119,12 @@ def main():
                 st.markdown('--------------------------------------------**Recommendation**--------------------------------------------')
                 st.text(f'\n\n\n\n\n\n')
                 st.markdown(f'Based on your aggregate preferences and ratings, **{city_similar}** is the top recommended city to move/travel to.')
-                title, country , subtitle, response, breakdown = final_answer(df, city_similar, data)
+                title, country , subtitle, response = final_answer(df, city_similar, data)
                 st.text(f'\n\n\n\n\n\n')
                 st.markdown(f'----------------------------------------------**{title}**---------------------------------------------')
                 st.write(f'{city_similar} is a city in {country}. {response}')
                 st.text(subtitle)
-                st.table(breakdown.style.format({'Score':'{:17,.1f}'}).background_gradient(cmap='Blues').set_properties(subset=['Score'], **{'width': '250px'}))
+                #st.table(breakdown.style.format({'Score':'{:17,.1f}'}).background_gradient(cmap='Blues').set_properties(subset=['Score'], **{'width': '250px'}))
                 st.markdown(f'For more info on city rank scores, check [here](https://www.nestpick.com/millennial-city-ranking-2018/)')
 
 
