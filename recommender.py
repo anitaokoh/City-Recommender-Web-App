@@ -28,7 +28,8 @@ def load():
     # df.to_csv('city_ranking.csv', index=False)
 
     df = pd.read_csv('city_ranking.csv',header=0)
-    
+    df.to_csv('newTextFile.csv', sep='\t')
+    df.fillna(df.mean)
 
     print(df.columns[0])
     data = df.set_index('City').iloc[1,1:-1]
