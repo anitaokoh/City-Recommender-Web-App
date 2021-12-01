@@ -27,8 +27,11 @@ def load():
 
     # df.to_csv('city_ranking.csv', index=False)
 
-    df = pd.read_csv('city_ranking.csv')
-    data = df.set_index('City').iloc[:,1:-1]
+    df = pd.read_csv('city_ranking.csv',header=0)
+    
+
+    print(df.columns[0])
+    data = df.set_index('City').iloc[1,1:-1]
     scores = df.set_index('City').iloc[:,1:-1].round().astype(int)
     location = []
     for index, city, country in df[["City", "country"]].sort_values("country").itertuples():
